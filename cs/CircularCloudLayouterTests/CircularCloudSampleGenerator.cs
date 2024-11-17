@@ -26,6 +26,6 @@ public class CircularCloudSampleGenerator
 	{
 		var layouter = new CircularCloudLayouter(new Point(400, 400));
 		var rectangles = CloudGenerator.GenerateRandomCloud(layouter, count, minWidth, maxWidth);
-		CloudVisualiser.DrawAndSaveCloud(rectangles, Path.Combine(projectDir, SamplesDirName), fileName, 800);
+		CloudVisualiser.DrawAndSaveCloud(rectangles, Path.Combine(projectDir, SamplesDirName), fileName, 800, 800, Color.Azure);
 	}
 }

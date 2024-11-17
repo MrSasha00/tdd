@@ -5,11 +5,12 @@ namespace TagsCloudVisualization;
 
 public static class CloudVisualiser
 {
-	public static void DrawAndSaveCloud(IEnumerable<Rectangle> rectangles, string path, string fileName, int imageWidth)
+	public static void DrawAndSaveCloud(IEnumerable<Rectangle> rectangles, string path, string fileName, int imageWidth, int imageHeight, Color backgroundColor)
 	{
-		using var bitmap = new Bitmap(imageWidth, imageWidth);
+		var filePath = Path.Combine(path, fileName + ".png");
+		using var bitmap = new Bitmap(imageWidth, imageHeight);
 		using var graphics = Graphics.FromImage(bitmap);
-		graphics.Clear(Color.White);
+		graphics.Clear(backgroundColor);
 
 		var random = new Random();
 		foreach (var rectangle in rectangles)
@@ -20,7 +21,14 @@ public static class CloudVisualiser
 			graphics.DrawRectangle(Pens.Black, rectangle);
 		}
 
-		bitmap.Save(Path.Combine(path, fileName + ".png"), System.Drawing.Imaging.ImageFormat.Png);
+		try
+		{
+			bitmap.Save(filePath, System.Drawing.Imaging.ImageFormat.Png);
+		}
+		catch (Exception e)
+		{
+			Console.WriteLine($"Не удалось сохранить файл {filePath}. Ошибка: {e.Message} ");
+		}
 	}
 }
 

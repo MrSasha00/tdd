@@ -6,6 +6,7 @@ public class CircularCloudLayouter(Point center) : ICircularCloudLayouter
 {
 	private double angle;
 	private const double SpiralStep = 0.2;
+	private double angleStep = 0.01;
 
 	public Rectangle PutNextRectangle(Size rectangleSize, ICollection<Rectangle> rectangles)
 	{
@@ -22,7 +23,7 @@ public class CircularCloudLayouter(Point center) : ICircularCloudLayouter
 			var location = GetLocation(rectangleSize);
 			newRectangle = new Rectangle(location, rectangleSize);
 		}
-		while (IsIntersecting(newRectangle, rectangles));
+		while (rectangles.IsIntersecting(newRectangle));
 
 		rectangles.Add(newRectangle);
 
@@ -34,11 +35,8 @@ public class CircularCloudLayouter(Point center) : ICircularCloudLayouter
 		var radius = SpiralStep * angle;
 		var x = (int)(center.X + radius * Math.Cos(angle) - rectangleSize.Width / 2);
 		var y = (int)(center.Y + radius * Math.Sin(angle) - rectangleSize.Height / 2);
-		angle += 0.01;
+		angle += angleStep;
 
 		return new Point(x, y);
 	}
-
-	private bool IsIntersecting(Rectangle rectangle, ICollection<Rectangle> rectangles)
-		=> rectangles.Any(existingRectangle => existingRectangle.IntersectsWith(rectangle));
 }
